@@ -1,10 +1,13 @@
 ---
 title: android js交互
+date: 2019-5-15 20:52:40
+updated: 2019-5-16 10:21:15
 tags: 
   - android
 categories:
   - [webview] 
-top_image: https://rmt.dogedoge.com/fetch/fluid/storage/bg/dojm2h.png?w=1920&q=100&fmt=webp
+toc: true
+top_image: https://rmt.dogedoge.com/fetch/fluid/storage/bg/vdysjx.png?w=1920&fmt=webp
 excerpt: WebView是Android系统提供能显示网页的系统控件，它是一个特殊的View，同时它也是一个ViewGroup可以有很多其他子View。在Android 4.4以下(不包含4.4)系统WebView底层实现是采用WebKit内核，而在Android 4.4及其以上Google 采用了chromium内核作为系统WebView的底层内核支持。
 
 ---
@@ -15,7 +18,7 @@ WebView是Android系统提供能显示网页的系统控件，它是一个特殊
 1. Crosswalk同样是基于Chromium内核，同样存在上述app体积问题，因此也放弃。
 1. TbsX5基于谷歌Blink内核，并提供两种集成方案：1)只共享微信手Q空间的x5内核(for share)，2)独立下载x5内核(with download)。
 
-## webview与js交互的几种方式及优缺点
+## webview与js交互的几种方式
 
 ### Android 调用js代码
 
@@ -30,7 +33,8 @@ webView.loadUrl("javascript:callJs('方式一')");
  注意：
 1. 这种方式Native调用js方法一定要在 onPageFinished() 回调之后才能调用，否则不会调用到。
 2. 会让页面每次都会刷新，如果页面加载较慢很容易引起屏幕闪一下或者白屏，效果较差。
-##### 2.通过webview.evaluateJavascript()
+
+#### 2. 通过webview.evaluateJavascript()
 
 ```
 webView.evaluateJavascript("javascript:callJs('方式二')", new ValueCallback<String>() {
@@ -133,6 +137,7 @@ function callAndroid(){
 优点：可以和ios统一
 
 缺点：没有返回值，需要提前和前端商定协议。
+
 #### 3. WebChromeClient中onJsAlert()、onJsConfirm()、onJsPrompt（）
 利用js 的alert confirm prompt方法时， WebChromeClient中相应的方法会有回调，其中alert没有返回值，confirm返回布尔值，true为确认，false为取消，prompt可以返回任何值， 所以一般都会利用prompt来做为通信手段。
 
@@ -182,7 +187,7 @@ function callAppByPrompt(){
 
 缺点：需要提前和前端商定协议，用户感知较明显，会弹出对话框（当然可以在Native层选择不弹框，但这样会让代码复杂性上升）
 
-## jsbridge介绍及使用（android /ios）
+## jsbridge介绍及使用 (android)
 jsbridge是对js与webveiw交互的封装，相互调用更简单方便。
 
 ```bash
